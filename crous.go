@@ -86,6 +86,19 @@ func getMenu(restaurantId string) []discordwebhook.Field {
 		log.Fatal("Error unmarshall menu: ", unmarshalErr)
 	}
 
+	location, err := time.LoadLocation("Europe/Paris")
+	if err != nil {
+		log.Fatal("Could not load location: ", err)
+	}
+	today := time.Now().In(location)
+	menuDate, err := time.Parse("2006-01-02T15:04:05Z", menu[0].Day)
+	if err != nil {
+		log.Fatal("Error parsing menu date: ", err)
+	}
+	if !DateEqual(today, menuDate) {
+		log.Fatal("Menu date is not today")
+	}
+
 	var curatedMenu []foodie
 
 	for _, restaurant := range menu {
@@ -121,6 +134,12 @@ func getMenu(restaurantId string) []discordwebhook.Field {
 	}
 
 	return fields
+}
+
+func DateEqual(date1, date2 time.Time) bool {
+	y1, m1, d1 := date1.Date()
+	y2, m2, d2 := date2.Date()
+	return d1 == d2 && m1 == m2 && y1 == y2
 }
 
 type crousMenu []struct {
