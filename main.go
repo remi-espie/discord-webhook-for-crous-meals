@@ -17,12 +17,23 @@ func main() {
 	// webhook URL in .env
 	webhook := os.Getenv("WEBHOOK_URL")
 
+	// URL of the .ics file in .env
+	icsUrl := os.Getenv("WITH_CALENDAR")
+
 	//set the username and avatar of the bot
 	username := "🍽️ CROUSBLOUNG"
 	avatar := os.Getenv("AVATAR_URL")
 
 	// Prepare information for the CROUS meal
 	crousRestaurantId := os.Getenv("CROUS_RESTAURANT_ID")
+
+	// Check if there is a calendar to check
+	if icsUrl != "" {
+		// Check if there is an event today. If not, return early
+		if !isEventToday(icsUrl) {
+			return
+		}
+	}
 
 	embeds := []discordwebhook.Embed{
 		getMenuEmbed(crousRestaurantId),
