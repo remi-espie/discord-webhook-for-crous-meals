@@ -31,8 +31,9 @@ func getMenuEmbed(crousRestaurantId string) discordwebhook.Embed {
 		},
 	}
 
-	if content == nil {
+	if content == nil || len(content) == 0 {
 		noMenu := "No menu available for today!"
+		log.Println(noMenu)
 		content = []discordwebhook.Field{
 			{
 				&noMenu,
@@ -105,7 +106,7 @@ func getMenu(restaurantId string) []discordwebhook.Field {
 		for _, food := range restaurant.Foodies {
 			flag := false
 			for _, content := range food.Content {
-				if content == "menu non communiqué" {
+				if content == "menu non communiqué" || content == "fermé" {
 					flag = true
 					break
 				}

@@ -31,6 +31,7 @@ func main() {
 	if icsUrl != "" {
 		// Check if there is an event today. If not, return early
 		if !isEventToday(icsUrl) {
+			log.Println("No events today")
 			return
 		}
 	}
@@ -39,6 +40,7 @@ func main() {
 		getMenuEmbed(crousRestaurantId),
 	}
 	sendMessage(webhook, username, avatar, embeds)
+	log.Println("Menu fetched and sent !")
 }
 
 func sendMessage(webhook string, username string, avatar string, embed []discordwebhook.Embed) {
