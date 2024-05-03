@@ -106,7 +106,7 @@ func getMenu(restaurantId string) []discordwebhook.Field {
 		for _, food := range restaurant.Foodies {
 			flag := false
 			for _, content := range food.Content {
-				if content == "menu non communiqué" || content == "fermé" {
+				if content == "menu non communiqué" || content == "fermé" || content == "Fermé" {
 					flag = true
 					break
 				}
