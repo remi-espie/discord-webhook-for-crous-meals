@@ -62,7 +62,7 @@ func getMenuEmbed(crousRestaurantId string) discordwebhook.Embed {
 }
 
 func getMenu(restaurantId string) []discordwebhook.Field {
-	url := "https://api.hackthecrous.com/restaurants/meals/" + restaurantId
+	url := "https://api.hackthecrous.com/v2/restaurants/meals/" + restaurantId
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Fatal("Error fetching menu:", err)
@@ -92,7 +92,7 @@ func getMenu(restaurantId string) []discordwebhook.Field {
 		log.Fatal("Could not load location: ", err)
 	}
 	today := time.Now().In(location)
-	menuDate, err := time.Parse("2006-01-02T15:04:05Z", menu[0].Day)
+	menuDate, err := time.Parse("2006-01-02", menu[0].Day)
 	if err != nil {
 		log.Fatal("Error parsing menu date: ", err)
 	}
